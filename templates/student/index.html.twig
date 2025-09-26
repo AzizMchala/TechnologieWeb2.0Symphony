@@ -1,0 +1,15 @@
+{% if moy > 16 %} 
+<p>Moy: {{ moy }}</p>
+{% else %}
+<p>Moy vide</p>
+{% endif %}
+
+{% for produit in tab %}
+<p>Produit: {{ produit}}</p>
+{% endfor %}
+<p>Produit: {{ tab |length}}</p>
+
+
+
+
+<img src="{{ asset('images/splash_logo.png') }}" alt="Example"/>git add .
