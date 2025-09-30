@@ -24,6 +24,41 @@ final class AuthorController extends AbstractController
         ]);
     }
 
+   
+    #[Route('/list', name: 'app_author_list')]
+    public function listAuthors(): Response
+    {
+        $authors = array(
+            array('id' => 1, 'picture' => '/images/Victor.jpg','username' => 'Victor Hugo', 'email' => 'victor.hugo@gmail.com', 'nb_books' => 100),
+            array('id' => 2, 'picture' => '/images/william-shakespeare.jpg','username' => 'William Shakespeare', 'email' => 'william.shakespeare@gmail.com', 'nb_books' => 200),
+            array('id' => 3, 'picture' => '/images/Taha-hussein.jpg','username' => 'Taha Hussein', 'email' => 'taha.hussein@gmail.com', 'nb_books' => 300),
+        );
 
+        return $this->render('author/list.html.twig', [
+            'authors' => $authors,
+        ]);
+    }
+
+    #[Route('/author/details/{id}', name: 'app_author_details')]
+    public function authorDetails($id): Response
+    {
+        $authors = array(
+            array('id' => 1, 'picture' => '/images/Victor.jpg','username' => 'Victor Hugo', 'email' => 'victor.hugo@gmail.com', 'nb_books' => 100),
+            array('id' => 2, 'picture' => '/images/william-shakespeare.jpg','username' => 'William Shakespeare', 'email' => 'william.shakespeare@gmail.com', 'nb_books' => 200),
+            array('id' => 3, 'picture' => '/images/Taha-hussein.jpg','username' => 'Taha Hussein', 'email' => 'taha.hussein@gmail.com', 'nb_books' => 300),
+        );
+
+        $author = null;
+        foreach ($authors as $a) {
+            if ($a['id'] == $id) {
+                $author = $a;
+                break;
+            }
+        }
+
+        return $this->render('author/showAuthor.html.twig', [
+            'author' => $author,
+        ]);
+    }
 
 }

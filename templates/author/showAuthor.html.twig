@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'Auteur{% endblock %}
+
+{% block body %}
+    <h1>Détails de l'Auteur</h1>
+    
+    {% if author is not defined or author is empty %}
+        <p>Auteur non trouvé.</p>
+    {% else %}
+        <p><strong>Nom :</strong> {{ author.username }}</p>
+        <p><strong>Email :</strong> {{ author.email }}</p>
+        <p><strong>Nombre de livres :</strong> {{ author.nb_books }}</p>
+        <img src="{{ author.picture }}" alt="{{ author.username }}" />
+    {% endif %}
+{% endblock %}

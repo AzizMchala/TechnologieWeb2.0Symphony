@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Auteurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des Auteurs</h1>
+    
+    {% if authors is not defined or authors is empty %}
+        <p>Aucun auteur n'est disponible pour le moment.</p>
+    {% else %}
+        <p>Nombre d'auteurs : {{ authors|length }}</p>
+        <p>Nombre total de livres : {{ authors|reduce((carry, author) => carry + author.nb_books, 0) }}</p>
+        
+        <ul>
+            {% for author in authors %}
+                <li>
+                    {{ author.username|upper }} 
+                    <a href="{{ path('app_author_details', {'id': author.id}) }}">détails</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
