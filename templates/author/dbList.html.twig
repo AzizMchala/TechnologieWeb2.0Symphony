@@ -1,0 +1,30 @@
+
+{% block body %}
+<h1><strong>List authors</strong></h1>
+
+<table border="1" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th><strong>Username</strong></th>
+            <th><strong>Email</strong></th>
+            <th><strong>Actions</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for author in authors %}
+        <tr>
+            <td><strong>{{ author.username }}</strong></td>
+            <td>{{ author.email }}</td>
+            <td>
+                <a href="{{ path('app_author_edit', {'id': author.id}) }}" style="color: blue; text-decoration: underline;">edit</a>
+                <a href="{{ path('app_author_delete', {'id': author.id}) }}" style="color: blue; text-decoration: underline;">delete</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">Aucun auteur trouvé dans la base de données.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

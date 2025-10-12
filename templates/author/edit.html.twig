@@ -1,0 +1,23 @@
+
+
+
+{% block body %}
+<h1><strong>Edit Author</strong></h1>
+
+{{ form_start(form) }}
+    <div style="margin-bottom: 10px;">
+        {{ form_label(form.username) }}
+        {{ form_widget(form.username) }}
+    </div>
+    
+    <div style="margin-bottom: 10px;">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+    </div>
+    
+    <div style="margin-top: 20px;">
+        {{ form_widget(form.save) }}
+        <a href="{{ path('app_author_db_list') }}" style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; display: inline-block;">Cancel</a>
+    </div>
+{{ form_end(form) }}
+{% endblock %}
