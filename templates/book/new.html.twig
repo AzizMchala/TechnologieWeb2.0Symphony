@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Livre{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Créer un nouveau livre</h1>
+
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.publicationDate) }}
+                </div>
+                <div class="mb-3 form-check">
+                    {{ form_row(form.published) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.author) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.readers) }}
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Créer
+                    </button>
+                    <a href="{{ path('app_book_index') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Retour à la liste
+                    </a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

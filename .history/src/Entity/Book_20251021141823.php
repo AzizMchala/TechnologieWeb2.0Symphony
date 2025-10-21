@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -23,23 +23,11 @@ class Book
     private ?\DateTime $publicationDate = null;
 
     #[ORM\Column]
-    private ?bool $published = null;
+    private ?bool $enabled = null;
 
-    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'books')]
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: "books")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Author $author = null;
-
-    /**
-     * @var Collection<int, Reader>
-     */
-    #[ORM\ManyToMany(targetEntity: Reader::class, inversedBy: 'books')]
-    #[ORM\JoinTable(name: 'book_reader')]
-    private Collection $readers;
-
-    public function __construct()
-    {
-        $this->readers = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -70,16 +58,9 @@ class Book
         return $this;
     }
 
-    public function isPublished(): ?bool
+    public function isEnabled(): ?bool
     {
-        return $this->published;
-    }
-
-    public function setPublished(bool $published): static
-    {
-        $this->published = $published;
-
-        return $this;
+        return $this->enabled;
     }
 
     public function getAuthor(): ?Author
@@ -90,8 +71,15 @@ class Book
     public function setAuthor(?Author $author): static
     {
         $this->author = $author;
-
         return $this;
+    }
+
+    #[ORM\ManyToMany(targetEntity: Reader::class, inversedBy: "books")]
+    private $readers;
+
+    public function __construct()
+    {
+        $this->readers = new ArrayCollection();
     }
 
     /**
@@ -105,15 +93,23 @@ class Book
     public function addReader(Reader $reader): static
     {
         if (!$this->readers->contains($reader)) {
-            $this->readers->add($reader);
+            $this->readers[] = $reader;
+            $reader->addBook($this);
         }
-
         return $this;
     }
 
     public function removeReader(Reader $reader): static
     {
-        $this->readers->removeElement($reader);
+        if ($this->readers->removeElement($reader)) {
+            $reader->removeBook($this);
+        }
+        return $this;
+    }
+
+    public function setEnabled(bool $enabled): static
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livres par Auteur{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Livres de l'auteur #{{ author_id }}</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4><i class="bi bi-database"></i> Résultats DQL</h4>
+                </div>
+                <div class="card-body">
+                    {% if books_dql|length > 0 %}
+                        <p class="text-muted">Nombre de livres: <strong>{{ books_dql|length }}</strong></p>
+                        <ul class="list-group">
+                            {% for book in books_dql %}
+                                <li class="list-group-item">
+                                    <strong>{{ book.title }}</strong>
+                                    <br>
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar"></i> {{ book.publicationDate|date('d/m/Y') }}
+                                        {% if book.published %}
+                                            <span class="badge bg-success ms-2">Publié</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary ms-2">Non publié</span>
+                                        {% endif %}
+                                    </small>
+                                    <br>
+                                    <a href="{{ path('app_book_show', {'id': book.id}) }}" class="btn btn-sm btn-info mt-2">
+                                        <i class="bi bi-eye"></i> Voir
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle"></i> Aucun livre trouvé pour cet auteur
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4><i class="bi bi-gear"></i> Résultats QueryBuilder</h4>
+                </div>
+                <div class="card-body">
+                    {% if books_qb|length > 0 %}
+                        <p class="text-muted">Nombre de livres: <strong>{{ books_qb|length }}</strong></p>
+                        <ul class="list-group">
+                            {% for book in books_qb %}
+                                <li class="list-group-item">
+                                    <strong>{{ book.title }}</strong>
+                                    <br>
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar"></i> {{ book.publicationDate|date('d/m/Y') }}
+                                        {% if book.published %}
+                                            <span class="badge bg-success ms-2">Publié</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary ms-2">Non publié</span>
+                                        {% endif %}
+                                    </small>
+                                    <br>
+                                    <a href="{{ path('app_book_show', {'id': book.id}) }}" class="btn btn-sm btn-info mt-2">
+                                        <i class="bi bi-eye"></i> Voir
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle"></i> Aucun livre trouvé pour cet auteur
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info" role="alert">
+        <h5><i class="bi bi-info-circle"></i> Information</h5>
+        <p>Les deux colonnes affichent les mêmes résultats obtenus par deux méthodes différentes:</p>
+        <ul>
+            <li><strong>DQL</strong>: Utilise une requête en langage DQL</li>
+            <li><strong>QueryBuilder</strong>: Utilise l'API QueryBuilder de Doctrine</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ path('app_book_index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
+</div>
+{% endblock %}

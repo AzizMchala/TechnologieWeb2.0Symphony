@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Entity;
-
-use App\Repository\ReaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
+use App\Repository\ReaderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReaderRepository::class)]
@@ -18,11 +18,8 @@ class Reader
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    /**
-     * @var Collection<int, Book>
-     */
-    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'readers')]
-    private Collection $books;
+    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: "readers")]
+    private $books;
 
     public function __construct()
     {
@@ -32,18 +29,6 @@ class Reader
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     /**
@@ -57,10 +42,9 @@ class Reader
     public function addBook(Book $book): static
     {
         if (!$this->books->contains($book)) {
-            $this->books->add($book);
+            $this->books[] = $book;
             $book->addReader($this);
         }
-
         return $this;
     }
 
@@ -69,6 +53,17 @@ class Reader
         if ($this->books->removeElement($book)) {
             $book->removeReader($this);
         }
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
 
         return $this;
     }

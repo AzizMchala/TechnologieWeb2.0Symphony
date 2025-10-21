@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Livre{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Détails du livre</h1>
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3>{{ book.title }}</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th style="width: 200px;">ID</th>
+                        <td>{{ book.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Titre</th>
+                        <td>{{ book.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date de publication</th>
+                        <td>{{ book.publicationDate ? book.publicationDate|date('d/m/Y') : 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Publié</th>
+                        <td>
+                            {% if book.published %}
+                                <span class="badge bg-success">Oui</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Non</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Auteur</th>
+                        <td>
+                            {% if book.author %}
+                                {{ book.author.username }} ({{ book.author.email }})
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Lecteurs</th>
+                        <td>
+                            {% if book.readers|length > 0 %}
+                                <ul class="list-unstyled">
+                                    {% for reader in book.readers %}
+                                        <li><i class="bi bi-person"></i> {{ reader.username }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                Aucun lecteur
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex gap-2 mt-3">
+                <a href="{{ path('app_book_edit', {'id': book.id}) }}" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Modifier
+                </a>
+                <a href="{{ path('app_book_index') }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Retour à la liste
+                </a>
+                <form method="post" action="{{ path('app_book_delete', {'id': book.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');" style="display: inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Supprimer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

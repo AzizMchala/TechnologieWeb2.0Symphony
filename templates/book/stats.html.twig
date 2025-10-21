@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques des Livres{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Statistiques des Livres</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h4><i class="bi bi-database"></i> Nombre de livres (DQL)</h4>
+                </div>
+                <div class="card-body text-center">
+                    <h1 class="display-3 text-primary">{{ count_dql }}</h1>
+                    <p class="text-muted">Livres enregistrés</p>
+                    <small class="text-muted">Méthode: Doctrine Query Language</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h4><i class="bi bi-gear"></i> Nombre de livres (QueryBuilder)</h4>
+                </div>
+                <div class="card-body text-center">
+                    <h1 class="display-3 text-success">{{ count_qb }}</h1>
+                    <p class="text-muted">Livres enregistrés</p>
+                    <small class="text-muted">Méthode: QueryBuilder</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info" role="alert">
+        <h5><i class="bi bi-info-circle"></i> Information</h5>
+        <p>Les deux méthodes (DQL et QueryBuilder) retournent le même résultat. Elles sont implémentées pour démontrer les deux approches de requêtes Doctrine.</p>
+        <ul>
+            <li><strong>DQL (Doctrine Query Language)</strong>: Similaire à SQL mais utilise des entités</li>
+            <li><strong>QueryBuilder</strong>: API orientée objet pour construire des requêtes</li>
+        </ul>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ path('app_book_index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
+</div>
+{% endblock %}
